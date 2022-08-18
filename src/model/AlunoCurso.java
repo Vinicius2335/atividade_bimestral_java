@@ -1,10 +1,13 @@
 package model;
 
 import java.util.Map;
+import java.util.Optional;
 import java.util.TreeMap;
 
 public class AlunoCurso {
     private Curso curso;
+
+    // key -> RA do estudante, Value -> estudante
     private Map<String, Estudante> alunosCurso = new TreeMap<>();
 
     public AlunoCurso() {
@@ -12,6 +15,13 @@ public class AlunoCurso {
 
     public AlunoCurso(Curso curso) {
         this.curso = curso;
+    }
+
+    public Estudante recuperarAluno(String ra) {
+        Optional<Map.Entry<String, Estudante>> estudanteEntry = alunosCurso.entrySet().stream()
+                .filter(entry -> ra.equals(entry.getValue().getRa())).findFirst();
+
+        return estudanteEntry.map(Map.Entry::getValue).orElse(null);
     }
 
     @Override
@@ -26,15 +36,6 @@ public class AlunoCurso {
 
     public Map<String, Estudante> recuperarListaAlunos() {
         return alunosCurso;
-    }
-
-    public Estudante recuperarAluno(String RA) {
-        for (Map.Entry<String, Estudante> entry : alunosCurso.entrySet()) {
-            if (entry.getValue().getRa().equals(RA)) {
-                return entry.getValue();
-            }
-        }
-        return null;
     }
 
     public Curso getCurso() {

@@ -23,14 +23,13 @@ public class Test01 {
 //        System.out.println(a1.getDataHora());
         a1.addAluno(e1);
 //        System.out.println(a1.getListaAlunos());
-        System.out.println(a1.getAluno("1"));
+//        System.out.println(a1.getAluno("1"));
 
         AlunoCurso ac1 = new AlunoCurso(c1);
-        System.out.println(ac1);
+        //System.out.println(ac1);
         ac1.inserirAluno(e1);
-        System.out.println(ac1);
-
-
+        //System.out.println(ac1);
+        System.out.println(ac1.recuperarAluno(e1.getRa()));
 
     }
 }

@@ -4,6 +4,7 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Map;
+import java.util.Optional;
 import java.util.TreeMap;
 
 public class Aula {
@@ -41,13 +42,11 @@ public class Aula {
         return this.alunosAula;
     }
 
-    public Estudante getAluno(String RA) throws NullPointerException {
-        for (Map.Entry<String, Estudante> entry : alunosAula.entrySet()) {
-            if (entry.getValue().getRa().equals(RA)) {
-                return entry.getValue();
-            }
-        }
-        return null;
+    public Estudante getAluno(String ra) throws NullPointerException {
+        Optional<Map.Entry<String, Estudante>> estudanteEntry = alunosAula.entrySet().stream()
+                .filter(alunoAulaEntry -> ra.equals(alunoAulaEntry.getValue().getRa())).findFirst();
+
+        return estudanteEntry.map(Map.Entry::getValue).orElse(null);
     }
 
     public String getLab() {
@@ -65,7 +64,8 @@ public class Aula {
     public void setDataHora(String dataHora) {
         String pattern2 = "dd/MM/yyyy HH:mm";
         SimpleDateFormat format = new SimpleDateFormat(pattern2);
-        Date data = new Date();
+        Date data;
+
         try {
             data = format.parse(dataHora);
             this.dataHora = data;

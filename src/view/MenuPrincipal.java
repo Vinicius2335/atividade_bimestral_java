@@ -33,76 +33,68 @@ public class MenuPrincipal {
                     "\n7 - Relátorio" +
                     "\n8 - Sair" +
                     "\nEscolha uma Opção: ");
-            opcao = sc.nextInt();
+            opcao = Integer.parseInt(sc.nextLine());
 
             System.out.println();
 
             switch (opcao) {
-
-                case 1:
+                case 1 -> {
                     System.out.println("_______________ CADASTRO DE CURSO _______________");
                     System.out.print("Digite o nome do Curso : ");
-                    curso.setNomeCurso(sc.next());
+                    curso.setNomeCurso(sc.nextLine());
                     alunoCurso.setCurso(curso);
                     listaCurso.add(curso);
-
                     System.out.println("Curso cadastrado com Sucesso ...");
-                    break;
-
-                case 2:
+                }
+                case 2 -> {
                     String nomeCurso;
                     System.out.println("_______________ CADASTRO DE COLEGIADO _______________");
                     System.out.print("Digite o nome do Curso : ");
-                    nomeCurso = sc.next();
+                    nomeCurso = sc.nextLine();
 
-                    Curso c = Validacoes.cursoCadastrado(listaCurso, nomeCurso);
+                    Curso c = Validacoes.validacao(listaCurso, curso1 -> nomeCurso.equals(curso1.getNomeCurso()));
                     if (c != null) {
                         colegiado.setCurso(c);
                         System.out.println("Colegiado Cadastrado com Sucesso ...");
                     } else {
                         System.out.println("O Curso NÃO está CADASTRADO no Sistema !!");
                     }
-                    break;
-
-                case 3:
+                }
+                case 3 -> {
                     if (colegiado.getCurso() == null) {
                         System.out.println("É necessário cadastrar um COLEGIADO primeiro !!");
                         break;
                     }
                     professor = new Professor();
                     System.out.println("_______________ CADASTRO DE PROFESSOR _______________");
-                    System.out.print("Digite o nome: ");
-                    professor.setNome(sc.next());
+                    System.out.print("Digite o nome do Professor: ");
+                    professor.setNome(sc.nextLine());
                     System.out.print("Digite o CPF: ");
-                    professor.setCpf(sc.next());
+                    professor.setCpf(sc.nextLine());
                     System.out.print("Digite a Data de Nascimento (dd/mm/yyyy): ");
-                    professor.setDtNascimente(sc.next());
+                    professor.setDtNascimente(sc.nextLine());
                     System.out.print("Digite o Numero do Registro: ");
-                    professor.setnRegistro(sc.next());
+                    professor.setnRegistro(sc.nextLine());
                     System.out.print("Digite a Titulação: ");
-                    professor.setTitulacao(sc.next());
+                    professor.setTitulacao(sc.nextLine());
                     System.out.print("Digite as Horas Semanais: ");
-                    professor.setHorasSemanais(sc.nextFloat());
-                    sc.nextLine();
+                    professor.setHorasSemanais(Float.parseFloat(sc.nextLine()));
                     System.out.print("Digite o Preço por Hora: ");
-                    professor.setPrecoHora(sc.nextDouble());
-
+                    professor.setPrecoHora(Double.parseDouble(sc.nextLine()));
                     colegiado.inserirProfessor(professor);
                     System.out.println("\nProfessor Cadastrado com Sucesso ...");
-
-                    break;
-
-                case 4:
+                }
+                case 4 -> {
                     System.out.println("_______________ CADASTRO DE DISCIPLINA _______________");
                     disciplina = new Disciplina();
                     System.out.print("Digite o nome: ");
-                    disciplina.setNome(sc.next());
+                    disciplina.setNome(sc.nextLine());
                     System.out.print("Digite a Carga Horária: ");
-                    disciplina.setCargaHoraria(sc.nextInt());
+                    disciplina.setCargaHoraria(Integer.parseInt(sc.nextLine()));
                     System.out.print("Digite o número de Registro do Professor: ");
-                    String nRegistro = sc.next();
+                    String nRegistro = sc.nextLine();
 
-                    Professor prof = Validacoes.validarProfessor(colegiado, nRegistro);
+                    Professor prof = Validacoes.validacao(colegiado.recupeararProfessores(), professor1 -> nRegistro.equals(professor1.getnRegistro()));
                     if (prof != null) {
                         disciplina.setProfessor(prof);
                         curso.inserirDisciplina(disciplina);
@@ -110,32 +102,30 @@ public class MenuPrincipal {
                     } else {
                         System.out.println("\nO Professor NÃO está CADASTRADO no Sistema !!");
                     }
-                    break;
-
-                case 5:
+                }
+                case 5 -> {
                     if (curso.getNomeCurso() == null) {
                         System.out.println("É necessário cadastrar um CURSO primeiro !!");
                         break;
                     }
                     String nomeDisciplina;
                     System.out.println("_______________ CRIAR AULA _______________");
-                    System.out.print("Digite o Laboratiro: ");
-                    aula.setLab(sc.next());
+                    System.out.print("Digite o Laboratorio: ");
+                    aula.setLab(sc.nextLine());
                     System.out.print("Digite a Data e Hora da aula (dd/mm/yyyy hh:mm): ");
-                    aula.setDataHora(sc.next());
+                    aula.setDataHora(sc.nextLine());
                     System.out.print("Digite o nome da Disciplina: ");
-                    nomeDisciplina = sc.next();
+                    nomeDisciplina = sc.nextLine();
 
-                    Disciplina d = Validacoes.validarDisciplina(curso, nomeDisciplina);
-                    if (d != null){
+                    Disciplina d = Validacoes.validacao(curso.recuperarDisciplinas(), disciplina1 -> nomeDisciplina.equals(disciplina1.getNome()));
+                    if (d != null) {
                         aula.setDisciplina(d);
                         System.out.println("\nAula criada com Sucesso ...");
                     } else {
                         System.out.println("\nA Disciplina NÃO está CADASTRADO no Sistema !!");
                     }
-                    break;
-
-                case 6:
+                }
+                case 6 -> {
                     if (curso.getNomeCurso() == null) {
                         System.out.println("É necessário cadastrar um CURSO primeiro !!");
                         break;
@@ -143,32 +133,23 @@ public class MenuPrincipal {
                     estudante = new Estudante();
                     System.out.println("_______________ CADASTRO DE ALUNO _______________");
                     System.out.print("Digite o nome: ");
-                    estudante.setNome(sc.next());
+                    estudante.setNome(sc.nextLine());
                     System.out.print("Digite o CPF: ");
-                    estudante.setCpf(sc.next());
+                    estudante.setCpf(sc.nextLine());
                     System.out.print("Digite a Data de Nascimento (dd/mm/yyyy): ");
-                    estudante.setDtNascimente(sc.next());
+                    estudante.setDtNascimente(sc.nextLine());
                     System.out.print("Digite o RA : ");
-                    estudante.setRa(sc.next());
+                    estudante.setRa(sc.nextLine());
                     System.out.print("Digite o Periodo : ");
-                    estudante.setPeriodo(sc.nextInt());
-
+                    estudante.setPeriodo(Integer.parseInt(sc.nextLine()));
                     estudante.setCurso(curso);
                     alunoCurso.inserirAluno(estudante);
                     aula.addAluno(estudante);
                     System.out.println("\nAluno cadastrado ao curso com Sucesso ...");
-                    break;
-
-                case 7:
-                    Validacoes.relatorio(curso, alunoCurso, aula);
-                    break;
-
-                case 8:
-                    System.out.println("Finalizando Programa ...");
-                    break;
-
-                default:
-                    System.out.println("Opção invalida ...");
+                }
+                case 7 -> Validacoes.relatorio(curso, alunoCurso, aula);
+                case 8 -> System.out.println("Finalizando Programa ...");
+                default -> System.out.println("Opção invalida ...");
             }
         }
     }

@@ -62,6 +62,7 @@ public class Test02 {
         AlunoCurso ac2 = new AlunoCurso(c2);
         AlunoCurso ac3 = new AlunoCurso(c3);
         AlunoCurso ac4 = new AlunoCurso(c4);
+
         ac1.inserirAluno(e1);
         ac1.inserirAluno(e2);
 

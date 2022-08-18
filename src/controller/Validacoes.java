@@ -3,30 +3,13 @@ package controller;
 import model.*;
 
 import java.util.List;
+import java.util.function.Predicate;
 
 public abstract class Validacoes {
-    public static Professor validarProfessor(Colegiado colegiado, String nRegistroProfessor){
-        for(Professor prof : colegiado.recupeararProfessores()){
-            if (nRegistroProfessor.equals(prof.getnRegistro())){
-                return prof;
-            }
-        }
-        return null;
-    }
-
-    public static Disciplina validarDisciplina(Curso curso, String nomeDisciplina){
-        for (Disciplina discip : curso.recuperarDisciplinas()){
-            if (nomeDisciplina.equals(discip.getNome())){
-                return discip;
-            }
-        }
-        return null;
-    }
-
-    public static Curso cursoCadastrado(List<Curso> listaCursos, String nomeCurso){
-        for (Curso curso : listaCursos) {
-            if (nomeCurso.equals(curso.getNomeCurso())){
-                return curso;
+    public static <T> T validacao(List<T> list, Predicate<T> predicate){
+        for (T element : list){
+            if (predicate.test(element)){
+                return element;
             }
         }
         return null;
@@ -35,15 +18,12 @@ public abstract class Validacoes {
     public static void relatorio(Curso curso, AlunoCurso alunoCurso, Aula aula){
         System.out.println("_______________ RELÁTORIO DO SISTEMA _______________");
         System.out.println("Curso: " + curso.getNomeCurso());
-        for (Disciplina disciplina : curso.recuperarDisciplinas()) {
-            System.out.println(disciplina);
-        }
+        curso.recuperarDisciplinas().forEach(System.out::println);
 
         System.out.println();
         System.out.println("------------ Alunos Cadastrados no Curso ------------");
-        for (Estudante estudante : alunoCurso.recuperarListaAlunos().values()){
-            System.out.println("Aluno " + estudante.getNome() + " RA: " + estudante.getRa());
-        }
+        alunoCurso.recuperarListaAlunos().values()
+                .forEach(estudante -> System.out.println("Aluno " + estudante.getNome() + " RA: " + estudante.getRa()));
 
         System.out.println();
         System.out.println("--------- Aula ---------");
@@ -53,10 +33,29 @@ public abstract class Validacoes {
 
         System.out.println();
         System.out.println("--------- Alunos Cadastrados nas Aulas ---------");
-        for (Estudante estudante : aula.getListaAlunos().values()) {
-            System.out.println(estudante);
-        }
+        aula.getListaAlunos().values().forEach(System.out::println);
 
         System.out.println();
     }
 }
+
+//public static Professor validarProfessor(Colegiado colegiado, String nRegistroProfessor){
+    //    Optional<Professor> professor = colegiado.recupeararProfessores().stream()
+    //            .filter(prof -> prof.getnRegistro().equals(nRegistroProfessor)).findFirst();
+    //
+    //    return professor.orElse(null);
+    //}
+    //
+    //public static Disciplina validarDisciplina(Curso curso, String nomeDisciplina){
+    //    Optional<Disciplina> disciplina = curso.recuperarDisciplinas().stream()
+    //            .filter(disp -> nomeDisciplina.equals(disp.getNome())).findFirst();
+    //
+    //    return disciplina.orElse(null);
+    //}
+    //
+    //public static Curso cursoCadastrado(List<Curso> listaCursos, String nomeCurso){
+    //    Optional<Curso> curso = listaCursos.stream()
+    //            .filter(c -> nomeCurso.equals(c.getNomeCurso())).findFirst();
+    //
+    //    return curso.orElse(null);
+    //}
